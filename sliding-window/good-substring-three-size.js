@@ -96,4 +96,29 @@ const countGoodSubstringsReviewIII = (s) => {
     return totalGood;
 }
 
-console.log(countGoodSubstringsReview("aababcabc"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const countGoodSubstringsIV = (s) => {
+    let totalGood = 0;
+    for(let i = 0; i < s.length-2; i++){
+        const set = new Set([s[i],s[i+1],s[i+2]]);
+
+        if(set.size===3) totalGood++;
+
+    }
+    return totalGood;
+}
+
+console.log(countGoodSubstringsIV("aababcabc"));
