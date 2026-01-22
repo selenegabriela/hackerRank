@@ -147,4 +147,28 @@ const longestSubWithoutRepeatReviewIII = (s) => {
 }
 
 
-console.log(longestSubWithoutRepeatReviewIII('abcabcbb'));
+// abcabcbb
+//     l
+//       r
+// set [c,b]
+const longestSubWithoutRepeatIV = (s) => {
+    let l = 0;
+    const set = new Set();
+    let longestSub = 0;
+    for(let  r = 0; r < s.length; r++){
+        if(!set.has(s[r])){
+            set.add(s[r]);
+        } else {
+            while(set.has(s[r])){
+                set.delete(s[l]);
+                l++;
+            }
+            set.add(s[r]);
+        }
+        longestSub = Math.max(longestSub,r-l+1);
+    }
+    return longestSub;
+}
+
+
+console.log(longestSubWithoutRepeatIV('abcabcbb'));
