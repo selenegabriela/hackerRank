@@ -117,4 +117,26 @@ const isPalindromeReviewIII = (s) => {
     return true;
 }
 
-console.log(isPalindromeReviewIII('Anita lava la tinaa'));
+
+
+const isValidChar = (char) => {
+    return /[a-zA-Z0-9]/.test(char);
+}
+
+
+const isPalindromeIV = (s) => {
+
+    let l = 0;
+    let r = s.length-1;
+
+    while(r>l){
+        while(r > l && !isValidChar(s[l])) l++;
+        while(r > l && !isValidChar(s[r])) r--;
+        if(s[l].toLowerCase() !== s[r].toLowerCase()) return false;
+        l++;
+        r--;
+    }
+    return true;
+}
+
+console.log(isPalindromeIV('Anita lava la tinaa'));
