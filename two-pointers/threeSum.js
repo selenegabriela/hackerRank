@@ -169,11 +169,65 @@ const threeSumReviewIII = (n) => {
 }
 
 
-console.log(threeSumReviewIII([-2,0,1,2,-2,-4,4,0]));
 
 
 
 
+
+
+
+
+
+
+
+// [-1, 0, 1, 2, -1, -4]
+// [-4, -1, -1, 0, 1, 2]
+//       i
+//          p1
+//                    p2
+
+// sum = n[i] + n[p1] + n[p2] = 0
+// while sum===0:
+    // push
+    // p1++
+    // p2--
+// sum < 0: 
+//  p1++
+// else:
+//  p2--
+
+// [[-1,0,1],[-1,2-1]]
+// 
+
+const threeSumIV = (nums) => {
+    nums.sort((a,b) => a-b);
+    const results = [];
+    for(let i = 0; i < nums.length; i++){
+        if(i > 0 && nums[i]===nums[i-1]) continue;
+
+        let p1 = i + 1, p2 = nums.length - 1;
+
+        while(p1 < p2){
+            let sum = nums[i] + nums[p1] + nums[p2];
+            if(sum===0){
+               results.push([nums[i],nums[p1],nums[p2]]);
+               p1++;
+               p2--;
+                while(p1 < p2 && nums[p1] === nums[p1-1]) p1++;
+                while(p1 < p2 && nums[p2] === nums[p2+1]) p2--;
+
+            } else if(sum<0){
+                p1++;
+            } else {
+                p2--;
+            }
+        }
+    }
+    return results;
+}
+
+
+console.log(threeSumIV([-1, 0, 1, 2, -1, -4]));
 
 
 
