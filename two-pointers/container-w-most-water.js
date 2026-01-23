@@ -125,4 +125,41 @@ const maxAreaReviewIII = (heights) => {
     return maxArea;
 }
 
-console.log(maxAreaReviewIII([1,8,6,2,5,4,8,3,7]));
+
+
+
+
+
+
+
+
+
+
+
+// [1,8,6,2,5,4,8,3,7]
+//  l
+//                  r
+// h = Math.min(s[heights[l],heights[r]])
+// b = r-l
+// currArea = b * h
+// maxArea = Math.max(curr,max)
+
+
+const maxAreaIV = (heights) => {
+    let l = 0, r = heights.length-1;
+    let maxArea = 0;
+    while(l<r){
+        const h = Math.min(heights[l],heights[r]);
+        const b = r-l;
+        const currArea = h * b;
+        maxArea = Math.max(maxArea,currArea);
+        if(heights[l]>heights[r]){
+            r--;
+        } else {
+            l++;
+        }
+    }
+    return maxArea;
+}
+
+console.log(maxAreaIV([1,8,6,2,5,4,8,3,7]));
