@@ -121,7 +121,40 @@ const binarySearchReviewIII = (n,t) => {
     return -1;
 }
 
-console.log(binarySearchReviewIII([1,3,5,8,10,15,17,18,19,25],30))
+
+
+
+
+
+
+
+
+
+
+//  0 1 2 3 4  5  6  7  8  9
+// [1,3,5,8,10,15,17,18,19,25], t = 8
+//        l
+//        r
+//        m
+// m = floor(l+r) / 2 = 
+// m===t: return true
+// nums[m] > t: r = m-1
+// else l = m+1
+
+const binarySearchIV = (nums,target) => {
+    let l = 0, r = nums.length-1;
+
+    while(l<=r) {
+        const middle = Math.floor((l+r)/2);
+
+        if(nums[middle]===target) return middle;
+        else if(nums[middle] > target) r = middle - 1;
+        else l = middle + 1;
+    }
+    return -1;
+}
+
+console.log(binarySearchIV([1,3,5,8,10,15,17,18,19,25],32))
 
 
 
