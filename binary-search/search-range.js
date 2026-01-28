@@ -289,4 +289,57 @@ const binaryRangeReviewIII = (n,t) => {
 }
 
 
-console.log(binaryRangeReviewIII([1,2,2,2,3,4,5,5,7,8, 8, 8, 8, 10,10],500));
+
+
+
+
+
+//  0 1 2 3 4 5 6 7 8 9  10 11 12 13 14 
+// [1,2,2,2,3,4,5,5,7,8, 8, 8, 8, 10,10] t=8
+//                  l
+//                  r
+//                  m                           
+// middle = floor((l+r) / 2)
+// if(n[m]===t)
+//      limitIndex = m = 10
+//      r = m - 1
+// if(n[m]>t) r = m - 1
+// if(n[m]<t) l = m + 1
+
+const binaryRangeIV = (nums, target) => {
+    const rangeArr = [];
+    const findingRange = (isLeft) => {
+        let l = 0, r = nums.length - 1;
+        let range = -1;
+        while(l<=r) {
+            const middle = Math.floor((l+r)/2);
+
+            if(nums[middle]===target){
+                range = middle;
+                if(isLeft){
+                    r = middle - 1;
+                } else {
+                    l = middle + 1;
+                }
+            } else if(nums[middle] < target){
+                l = middle + 1;
+            } else {
+                r = middle - 1;
+            }
+            
+        }
+        return range;
+    }
+
+    rangeArr.push(findingRange(true));
+    if(rangeArr[0]===-1) return [-1,-1];
+    rangeArr.push(findingRange(false));
+
+    return rangeArr;
+}
+
+
+
+console.log(binaryRangeIV([1,2,2,2,3,4,5,5,7,8, 8, 8, 8, 10,10],70));
+
+
