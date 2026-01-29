@@ -245,4 +245,47 @@ const searchRotatedAarrayReviewIII = (n,t) => {
 }
 
 
-console.log(searchRotatedAarrayReviewIII([4,4,6,7,8,9,1,2,3],3));
+//  0 1 2 3 4 5 6 7 8
+// [4,4,6,7,8,9,1,2,3], t=2
+//            l
+//                  r
+//              m
+// m = floor((l+r)/2)
+// m===0:
+// nums[m] > t:
+//     nums[l] <= t:
+//          r = m - 1
+//     else 
+//          l = m + 1
+// else:
+//     nums[r] >= target:
+//          l = m + 1
+//     else
+//          r = m - 1
+const searchRotatedIV = (nums,target) => {
+    let l = 0, r = nums.length - 1;
+
+    while(l <= r){
+        const middle = Math.floor((l+r)/2);
+
+        if(nums[middle]===target){
+            return middle;
+        } else if(nums[middle] > nums[l]){
+            if(nums[middle] > target && nums[l] <= target){
+                r = middle - 1;
+            } else {
+                l = middle + 1;
+            }
+        } else {
+            if(nums[middle] < target && nums[r] >= target){
+                l = middle + 1;
+            } else {
+                r = middle - 1;
+
+            }
+        }
+    }
+    return -1;
+}
+
+console.log(searchRotatedIV([4,4,6,7,8,9,1,2,3],30));
