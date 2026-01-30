@@ -118,4 +118,49 @@ const joinArr = (left,right) => {
     return arr.concat(left.slice(l).concat(right.slice(r)));
 }
 
-console.log(mergeSortReviewIII([10,6,9,8,3,4,11,15,3,6]));
+
+
+
+
+
+// 0  1 2 3 4 5 6  7  8 9
+//[10,6,9,8,3,4,11,15,3,6]
+// [10,6,9,8,3]
+// [10,6,9]
+// [10] [6,9]
+// [6],[9]
+// floor(arr.length / 2) = 
+
+
+
+
+const mergeSortReviewIV = (nums) => {
+    if(nums.length<2) return nums;
+
+    const half = Math.floor(nums.length / 2);
+    const left = mergeSortReviewIV(nums.slice(0,half));
+    const right = mergeSortReviewIV(nums.slice(half));
+
+    return merging(left,right);
+}
+
+const merging = (left,right) => {
+    let l = 0;
+    let r = 0;
+    const finalArr = [];
+
+    while(l < left.length && r < right.length){
+        if(left[l] <= right[r]){
+            finalArr.push(left[l]);
+            l++;
+        } else {
+            finalArr.push(right[r]);
+            r++;
+
+        }
+    }
+    return finalArr.concat(left.slice(l)).concat(right.slice(r));
+}
+
+console.log(mergeSortReviewIV([10,6,9,8,3,4,11,15,3,6]));
+
