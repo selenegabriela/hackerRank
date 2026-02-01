@@ -119,11 +119,53 @@ const partitionReviewIII = (nums,low,high) => {
 
 
 
-console.log(quickSortReviewIII([10,6,9,8,3,4,11,15,3,6]));
 
 
 
 
+
+
+
+
+
+
+
+// [10,6,9,8,3,4,11,15,3,6]
+// [6,10,9,8,3,4,11,15,3,6]
+// [6,3,9,8,10,4,11,15,3,6]
+// [6,3,4,8,10,9,11,15,3,6]
+// [6,3,4,3,10,9,11,15,8,6]
+// [6,3,4,3,6,9,11,15,8,10]
+//                     j
+//          i
+//                       p
+// 
+// [6,3,4,3]
+
+const quickSortReviewIV = (nums, low=0, high=nums.length-1) => {
+    if(low>=high) return nums;
+    const pivot = orderingNums(nums,low,high);
+    quickSortReviewIV(nums,low,pivot-1);
+    quickSortReviewIV(nums,pivot+1,high);
+    return nums;
+
+}
+
+const orderingNums = (nums,low,high) => {
+    const pivot = nums[high];
+    let i = low;
+
+    for(let j = low; j < high; j++){
+        if(nums[j] <= pivot){
+            [nums[i],nums[j]] = [nums[j],nums[i]];
+            i++;
+        }
+    }
+    [nums[i],nums[high]] = [nums[high],nums[i]];
+    return i;
+}
+
+console.log(quickSortReviewIV([10,6,9,8,3,4,11,15,3,6]));
 
 
 
