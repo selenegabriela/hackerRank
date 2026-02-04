@@ -149,6 +149,41 @@ const recommendationPurchasesIII = (id) => {
     return orderedResults;
 }
 
+const recommendationPurchasesIV = (id) => {
+    const myPurchases = getPurchases(id);
+    const myPurchasesMap = new Set(myPurchases);
+    const myFriendsId = getFriendList(id);
+    const mapFreqPurchases = {};
+    let freq = 0;
+
+    const results = [];
+
+    for(let friendId of myFriendsId){
+        for(let purchase of getPurchases(friendId)){
+            if(!myPurchasesMap.has(purchase)){
+                mapFreqPurchases[purchase] = mapFreqPurchases[purchase] ? mapFreqPurchases[purchase] + 1: 1;
+                freq = Math.max(freq, mapFreqPurchases[purchase]);
+            }
+        }
+    }
+
+
+    const buckets = Array.from({length: freq + 1}, () => []);
+
+    for(let [key,value] of Object.entries(mapFreqPurchases)){
+        buckets[value].push(key);
+    }
+    
+    for(let i = buckets.length - 1; i > 0; i--){
+        for(let j = 0; j < buckets[i].length; j++){
+            results.push(buckets[i][j]);
+        }
+    }
+
+    return results;
+
+}
+
 console.log(recommendationPurchasesIII(4));
 
 
