@@ -17,29 +17,28 @@
 
 
 var topKFrequent = function(nums, k) {
-    const freqNumbers = {};
-    let mostFreq = 0;
-    const results = [];
+    const map = {};
+    let mostFrequent = 0
 
     for(let num of nums){
-        freqNumbers[num] = freqNumbers[num] ? freqNumbers[num] + 1 : 1;
-        mostFreq = Math.max(mostFreq, freqNumbers[num])
+        map[num] = map[num] ? map[num] + 1 : 1;
+        mostFrequent = Math.max(mostFrequent,map[num]);
     }
 
-    const bucket = Array.from({length: mostFreq + 1}, () => []);
+    const buckets = Array.from({length: mostFrequent+1},()=>[]);
 
-    for(let [key,value] of Object.entries(freqNumbers)){
-        bucket[value].push(key);
+    for(let [key,value] of Object.entries(map)){
+        buckets[value].push(key);
     }
+    const results = [];
+    for(let i = buckets.length-1; i > 0; i--){
+        for(let j = 0; j < buckets[i].length; j++){
 
-    console.log(bucket);
-    for(let i = bucket.length-1; i >= 1; i--){
-        for(let j = 0; j < bucket[i].length; j++){
-            results.push(bucket[i][j]);
         }
-        if(results.length===k) break;
     }
     return results;
+
+
 };
 
 // freqNums = {
@@ -168,4 +167,58 @@ const topKFrequentMinHeap = (nums,k) => {
     return results;
 }
 
-console.log(topKFrequent([3,3,3,2,2,2,2,2,1,4,4,7,7,7,7,7,10],3));// [3,7,10]
+
+
+
+
+// [3,3,3,2,2,2,2,2,1,4,4,7,7,7,7,7,10] 3
+//                      i
+/* map = {
+    2: 5,
+    7: 5,
+    3: 3,
+    1: 2,
+    10: 1,
+} 
+mostFreq = 5
+
+buckets = [[],[10],[1],[3],[],[2,7]]
+                                 i
+                            j 
+
+*/
+
+const topKFrequentBuckSort = (nums, target) => {
+    if(target > nums.length) return null;
+
+    const map = {};
+    let mostFreq = 0;
+    for(let i = 0; i < nums.length; i++){
+        map[nums[i]] = map[nums[i]] ? map[nums[i]] + 1 : 1;
+        mostFreq = Math.max(mostFreq, map[nums[i]]);
+    }
+
+    const buckets = Array.from({length: mostFreq+1}, () => []);
+    
+    for(let [key,value] of Object.entries(map)){
+        buckets[value].push(key);
+    }
+    let results = [];
+
+    for(let i = buckets.length-1; i > 0; i--){
+        for(let j = 0; j < buckets[i].length; j++){
+
+            if(results.length<target){
+                results.push(Number(buckets[i][j]));
+            } else {
+                break;
+            }
+        }
+    }
+
+    return results;
+}
+
+// [ [], [ '1', '10' ], [ '4' ], [ '3' ], [], [ '2', '7' ] ]
+
+console.log(topKFrequentBuckSort([3,3,3,3,3,2,2,2,2,2,1,4,4,7,7,7,7,7,10],2));// [3,7,10]
