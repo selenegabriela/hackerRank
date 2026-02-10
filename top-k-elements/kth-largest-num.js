@@ -587,8 +587,48 @@ const partitionIII = (nums,low,high) => {
 
     return i;
 }
+//   1 2 3 4 5 6 7 8 9 10 11
+//   1,4,5,5,6,6,8,8,9,10,17
+// [[5,8,1,6,6,5,9,10,4,17,8]] 8
+// [[5,1,8,6,6,5,9,10,4,17,8]] 8
+// [[5,1,6,8,6,5,9,10,4,17,8]] 8
+//           j                      
+//         i                      
+//                         p
 
-console.log(findKthLargestQuickSortReviewIII([5,8,1,6,6,5,9,10,4,17,8],8));
+
+
+const findKthLargestQuickSortIV = (nums,k) => {
+    if (k < 1 || k > nums.length) return null;
+
+    return quickSortFunction(nums,0,nums.length-1,nums.length-k);
+}
+
+const quickSortFunction = (nums,low,high,pos) => {
+    if(low===high) return nums[low];
+
+    const pivot = gettingPivot(nums,low,high);
+
+    if(pivot===pos) return nums[pivot];
+    else if(pivot < pos) return quickSortFunction(nums,pivot+1,high,pos);
+    else return quickSortFunction(nums,low,pivot-1,pos);
+}
+
+const gettingPivot = (nums,low,high) => {
+    const pivot = nums[high];
+    let i = low;
+
+    for(let j = low; j < high; j++){
+        if(pivot > nums[j]){
+            [nums[i],nums[j]] = [nums[j],nums[i]];
+            i++;
+        }
+    }
+    [nums[i],nums[high]] = [nums[high],nums[i]];
+    return i;
+}
+
+console.log(findKthLargestQuickSortIV([5,8,1,6,6,5,9,10,4,17,8],30));
 // [[5,8,1,6,6,5,9,10,4,17,8]]
 // [[5,8,1,6,6,5,4,10,9,17,8]]
 // [[5,8,1,6,6,5,4,8,9,17,10]]
