@@ -628,7 +628,97 @@ const gettingPivot = (nums,low,high) => {
     return i;
 }
 
-console.log(findKthLargestQuickSortIV([5,8,1,6,6,5,9,10,4,17,8],30));
+//   1 2 3 4 5 6 7 8 9 10 11
+// 11 10 9 8 7 6 5 4 3 2  1
+//   1,4,5,5,6,6,8,8,9,10,17
+// [[5,8,1,6,6,5,9,10,4,17,8]] 8
+//  [5,5,5,9,6,6,8,10]
+
+class MinHeapIV {
+    constructor(){
+        this.heap = [];
+    }
+
+    size(){
+        return this.heap.length;
+    }
+
+    peek(){
+        return this.heap[0];
+    }
+    
+    push(num){
+        this.heap.push(num);
+        this.bubbleUp();
+    }
+    
+    bubbleUp(){
+        let indexChild = this.size()-1;
+
+        while(indexChild > 0){
+            let indexParent = Math.floor((indexChild - 1) / 2);
+            let parent = this.heap[indexParent];
+
+            if(parent <= this.heap[indexChild]) break;
+
+            [this.heap[indexParent], this.heap[indexChild]] = [this.heap[indexChild],this.heap[indexParent]];
+
+           indexChild = indexParent;
+            
+        }
+        
+    }
+
+    pop(){
+
+        if(this.size() === 1) return this.heap.pop();
+        
+        const removedNum = this.heap[0];
+        this.heap[0] = this.heap.pop();
+        this.bubbleDown();
+        return removedNum;
+    }
+
+    bubbleDown(){
+        let indexParent = 0;
+        while(true){
+            let smallerIndex = indexParent;
+            let left = indexParent * 2 + 1;
+            let right = indexParent * 2 + 2;
+
+            if(left < this.size() && this.heap[smallerIndex] > this.heap[left]){
+                smallerIndex = left;  
+            }
+
+            if(right < this.size() && this.heap[right] < this.heap[smallerIndex]){
+                smallerIndex = right;
+            }
+
+            [this.heap[indexParent],this.heap[smallerIndex]] = [this.heap[smallerIndex],this.heap[indexParent]]
+
+            if(smallerIndex===indexParent) break;
+
+            indexParent = smallerIndex;
+        }
+    }
+}
+
+const findKthLargestMinHeapReviewIV = (nums,k) => {
+    const minHeap = new MinHeapIV()
+    for(let num of nums){
+        if(minHeap.size()<k){
+            minHeap.push(num);
+        } else {
+            if(minHeap.peek() < num){
+                minHeap.pop();
+                minHeap.push(num);
+            }
+        }
+    }
+    return minHeap.peek();
+}
+
+console.log(findKthLargestMinHeapReviewIV([5,8,1,6,6,5,9,10,4,17,8],8));
 // [[5,8,1,6,6,5,9,10,4,17,8]]
 // [[5,8,1,6,6,5,4,10,9,17,8]]
 // [[5,8,1,6,6,5,4,8,9,17,10]]
