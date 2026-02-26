@@ -419,6 +419,44 @@ const joiningLists = (left,right) => {
     return dummy.next;
 }
 
+//      0          1              2                          3            4
+//[[1,2,5,7],[1,2,3,4,5],     [3,3,3,7,8,9],              [2,4,5,6,7,8],[1,4,9,10]]
 
 
-console.log(mergeLIstsReviewIII([list1,list2,list3,list4,list5]));
+const mergeLIstsReviewIV = (lists,low=0,high=lists.length-1) => {
+    // ListNode
+    if(low > high) return null;
+    if(low===high) return lists[low];
+    const mid = Math.floor((low + high) / 2);
+
+    const left = mergeLIstsReviewIV(lists,low,mid);
+    const right = mergeLIstsReviewIV(lists,mid+1,high);
+
+    return mergingListsIV(left,right)
+
+}
+
+const mergingListsIV = (left,right) => {
+    const dummy = new ListNode(0);
+    let curr = dummy;
+
+    while(left && right){
+        if(left.val <= right.val){
+            curr.next = left;
+            left = left.next;
+
+        } else {
+            curr.next = right;
+            right = right.next;
+        }
+        curr = curr.next;
+    }
+
+    curr.next = left || right;
+    return dummy.next;
+    
+}
+
+
+
+console.log(mergeLIstsReviewIV([list1,list2,list3,list4,list5]));
