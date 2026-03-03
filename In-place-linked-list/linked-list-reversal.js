@@ -135,4 +135,32 @@ const reverseListReviewIII = (head) => {
     return prev;
 }
 
-//console.log(reverseListReviewIII(list1));
+
+
+
+
+
+
+
+
+
+// 1 - 2 - 3 - 4 - 5
+//next = 2
+//cuur = 1
+//prev = 1
+
+const reverseListReviewIV = (head) => {
+    let curr = head;
+    let prev = null;
+
+    while(curr){
+        const next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+
+}
+
+console.log(reverseListReviewIV(list1));
