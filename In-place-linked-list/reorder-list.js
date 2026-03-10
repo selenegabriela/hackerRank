@@ -221,4 +221,50 @@ const reorderListReviewIII = (head) => {
 
 }
 
-console.log(reorderListReviewIII(list));
+// 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
+//                              f
+//                s
+// 1 -> 7 -> 2 -> 6 -> 3 -> 5 -> 4
+
+const reorderListReviewIV = (list) => {
+
+    let slow = list;
+    let fast = list;
+
+    while(fast.next && fast.next.next){
+        fast = fast.next.next;
+        slow = slow.next;
+    }
+
+    let second = slow.next;
+    slow.next = null;
+    let prev = null;
+
+    while(second){
+        const next = second.next;
+        second.next = prev;
+        prev = second;
+        second = next;
+    }
+
+    second = prev;
+    let first = list;
+
+    while(second){
+        let aux1 = first.next;
+        let aux2 = second.next;
+
+        first.next = second;
+        second.next = aux1;
+
+        first = aux1;
+        second = aux2;
+        
+    }
+
+    return list;
+
+
+}
+
+console.log(reorderListReviewIV(list));
