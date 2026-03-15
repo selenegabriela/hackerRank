@@ -214,8 +214,72 @@ const reverseKGroupReviewIII = (head,k) => {
     return head;
 }
 
-const reverseKGroupReviewIV = () => {
 
+
+
+
+// 1 - 2 -3 -4 - 5 - 6 - 7 - 8
+//     c
+// counter = 1
+
+const searchingNode = (head,k) => {
+    let curr = head;
+    let counter = 0;
+
+    while(curr && counter < k-1){
+        curr = curr.next;
+        counter++;
+    }
+    return curr;
 }
 
-console.log(printingList(reverseKGroupReviewIII(list,2)));
+const reverseKGroupReviewIV = (head,k) => {
+
+    let curr = searchingNode(head,k)
+
+    if(!curr) return head;
+
+    const second = curr.next;
+    curr.next = null;
+
+    curr = head;
+    let prev = null;
+
+    while(curr){
+        const next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    head = prev;
+    curr = searchingNode(head,k)
+    curr.next = reverseKGroupReviewIV(second,k);
+    return head;
+}
+
+const reverseKGroupIV = (head,k) => {
+
+    let kth = searchingNode(head,k)
+
+    if(!kth) return head;
+
+    const second = kth.next;
+    kth.next = null;
+
+    let curr = head;
+    let prev = null;
+
+    while(curr){
+        const next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    head.next = reverseKGroupIV(second,k);
+
+    return prev;
+}
+
+console.log(printingList(reverseKGroupIV(list,2)));
